@@ -1,4 +1,5 @@
 import { defineConfig } from "orval";
+import { faker } from "@faker-js/faker";
 
 export default defineConfig({
   reactRetailLabBackend: {
@@ -15,8 +16,27 @@ export default defineConfig({
         fetch: {
           forceSuccessResponse: true,
         },
+        mock: {
+          properties: {
+            "/name/": () =>
+              `${faker.commerce.productName()}`,
+            "/imageUrl/": () =>
+              faker.image.url({ width: 250, height: 250 }),
+            "/description/": () =>
+              faker.commerce.productDescription(),
+            "/category/": () =>
+              faker.commerce.department(),
+            "/price/": () =>
+              parseFloat(faker.commerce.price({ min: 1, max: 1000 })),
+          },
+        },
       },
-      mock: false,
+      mock: {
+        type: "msw",
+        indexMockFiles: true,
+        useExamples: true,
+        locale: "en",
+      },
       prettier: true,
     },
   },
