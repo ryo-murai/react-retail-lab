@@ -1,7 +1,7 @@
 import { defineConfig } from "orval";
 
 export default defineConfig({
-  eCommerceBackend: {
+  reactRetailLabBackend: {
     input: {
       target: "docs/openapi.yaml",
     },

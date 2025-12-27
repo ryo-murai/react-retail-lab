@@ -1,6 +1,6 @@
 openapi: '3.0.3'
 info:
-  title: e-Commerce API
+  title: React Retail Lab Backend API
   version: '1.0.0'
 
 servers:
