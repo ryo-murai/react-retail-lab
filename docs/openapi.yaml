@@ -1,0 +1,399 @@
+openapi: '3.0.3'
+info:
+  title: e-Commerce API
+  version: '1.0.0'
+
+servers:
+  - url: ""
+
+tags:
+  - name: Products
+    description: Product management
+  - name: Orders
+    description: Order management
+  - name: User
+    description: User management
+
+paths:  
+  /api/products:
+    get:
+      summary: List all products
+      tags:
+        - Products
+      operationId: listProducts
+      parameters:
+        - name: search
+          in: query
+          description: Search term for product name or description
+          required: false
+          schema:
+            type: string
+        - name: category
+          in: query
+          description: Filter products by category
+          required: false
+          schema:
+            type: string
+        - name: priceMin
+          in: query
+          description: Minimum price filter
+          required: false
+          schema:
+            type: number
+        - name: priceMax
+          in: query
+          description: Maximum price filter
+          required: false
+          schema:
+            type: number
+        - name: sortBy
+          in: query
+          description: Sort products by field
+          required: false
+          schema:
+            type: string
+            enum: [name, price, createdAt]
+        - name: sortOrder
+          in: query
+          description: Sort order
+          required: false
+          schema:
+            type: string
+            enum: [asc, desc]
+        - name: limit
+          in: query
+          description: Maximum number of products to return
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: offset
+          in: query
+          description: Number of products to skip
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        '400':
+          $ref: 'ProblemDetails.yaml#/components/responses/BadRequest'
+
+  /api/products/{productId}:
+    parameters:
+      - name: productId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Get product details
+      tags:
+        - Products
+      operationId: getProduct
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          $ref: 'ProblemDetails.yaml#/components/responses/NotFound'
+  
+  /api/orders:
+    get:
+      summary: List all orders
+      tags:
+        - Orders
+      operationId: listOrders
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+        '401':
+          $ref: 'ProblemDetails.yaml#/components/responses/Unauthorized'
+    post:
+      summary: Create a new order
+      tags:
+        - Orders
+      operationId: createOrder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          $ref: 'ProblemDetails.yaml#/components/responses/BadRequest'
+        '401':
+          $ref: 'ProblemDetails.yaml#/components/responses/Unauthorized'
+        '409':
+          $ref: 'ProblemDetails.yaml#/components/responses/ResourceAlreadyExists'
+
+  /api/orders/{orderId}:
+    parameters:
+      - name: orderId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Get order details
+      tags:
+        - Orders
+      operationId: getOrder
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          $ref: 'ProblemDetails.yaml#/components/responses/NotFound'
+    patch:
+      summary: Update an existing order
+      tags:
+        - Orders
+      operationId: updateOrder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderUpdate'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          $ref: 'ProblemDetails.yaml#/components/responses/BadRequest'
+        '404':
+          $ref: 'ProblemDetails.yaml#/components/responses/NotFound'
+    delete:
+      summary: Delete an order
+      tags:
+        - Orders
+      operationId: deleteOrder
+      responses:
+        '204':
+          description: No Content
+        '404':
+          $ref: 'ProblemDetails.yaml#/components/responses/NotFound'
+
+  /api/users/me:
+    get:
+      summary: Get user details
+      tags:
+        - User
+      operationId: getUser
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: 'ProblemDetails.yaml#/components/responses/Unauthorized'
+    patch:
+      summary: Update user information
+      tags:
+        - User
+      operationId: updateUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserModify'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: 'ProblemDetails.yaml#/components/responses/BadRequest'
+        '401':
+          $ref: 'ProblemDetails.yaml#/components/responses/Unauthorized'
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        category:
+          type: string
+        price:
+          type: number
+        description:
+          type: string
+        imageUrl:
+          type: string
+          format: uri
+      required:
+        - id
+        - name
+        - price
+    Order:
+      allOf:
+        - $ref: '#/components/schemas/OrderCreate'
+        - type: object
+          properties:
+            id:
+              type: string
+            totalAmount:
+              type: number
+            orderDate:
+              type: string
+              format: date-time
+          required:
+            - id
+            - totalAmount
+            - orderDate
+    OrderCreate:
+      type: object
+      properties:
+        userId:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+          minItems: 1
+        deliveryInfo:
+          $ref: '#/components/schemas/DeliveryInfo'
+      required:
+        - userId
+        - items
+        - deliveryInfo
+    OrderUpdate:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+        deliveryInfo:
+          $ref: '#/components/schemas/DeliveryInfo'
+    OrderItem:
+      type: object
+      properties:
+        productId:
+          type: string
+        quantity:
+          type: integer
+          format: int32
+    DeliveryInfo:
+      type: object
+      properties:
+        recipientName:
+          type: string
+        address:
+          type: string
+        phoneNumber:
+          type: string
+        deliveryDate:
+          type: string
+          format: date
+      required:
+        - recipientName
+        - address
+        - phoneNumber 
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        address:
+          type: string
+        phoneNumber:
+          type: string
+      required:
+        - id
+        - name
+        - email
+    UserModify:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        address:
+          type: string
+        phoneNumber:
+          type: string
+    Error:
+      type: object
+      description: 'API problem response, as per [RFC 7807 application/problem+json](https://tools.ietf.org/html/rfc7807).'
+      properties:
+        type:
+          description: 'A URI reference [RFC3986] that identifies the problem type.'
+          type: string
+          format: uri-reference
+          maxLength: 128
+          example: 'about:blank'
+        title:
+          description: 'A short, human-readable summary of the problem type.'
+          type: string
+          maxLength: 120
+          example: 'Not Found'
+        status:
+          description: 'The [HTTP status code](https://www.rfc-editor.org/rfc/rfc9110#name-status-codes) generated by the origin server for this occurrence of the problem.'
+          type: integer
+          format: int32
+          minimum: 100
+          maximum: 599
+          example: 404
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+          maxLength: 2048
+          example: 'The requested reservation was not found.'
+        instance:
+          description: A URI reference that identifies the specific occurrence of the problem.
+          type: string
+          format: uri-reference
+          maxLength: 128
+          example: '/api/orders/999999'
+      additionalProperties: true
+      required:
+        - title
+        - status
+        - detail
