@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { ShoppingCart, Menu as MenuIcon } from "@mui/icons-material";
-import { Outlet } from "react-router";
+import { Outlet, Link } from "react-router";
 
 export const AppLayout = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -55,7 +55,7 @@ export const AppLayout = () => {
           {/* Logo and Title */}
           <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}>
             <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-              ReactRetail
+              React Retail Lab
             </Typography>
           </Box>
 
@@ -93,8 +93,12 @@ export const AppLayout = () => {
         open={isMenuOpen}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={handleMenuClose}>Home</MenuItem>
-        <MenuItem onClick={handleMenuClose}>Products</MenuItem>
+        <MenuItem component={Link} to="/" onClick={handleMenuClose}>
+          Home
+        </MenuItem>
+        <MenuItem component={Link} to="/products" onClick={handleMenuClose}>
+          Products
+        </MenuItem>
         <MenuItem onClick={handleMenuClose}>Categories</MenuItem>
         <MenuItem onClick={handleMenuClose}>About</MenuItem>
         <MenuItem onClick={handleMenuClose}>Contact</MenuItem>
@@ -114,7 +118,7 @@ export const AppLayout = () => {
       </Menu>
 
       {/* Main Content */}
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, width: "100%", display: "flex" }}>
         <Outlet />
       </Box>
     </Box>
