@@ -5,16 +5,31 @@ import {
   Typography,
   Box,
   Chip,
+  Button,
 } from "@mui/material";
 import { type Product } from "@/shared/api/model";
 
 interface ProductCardProps {
   product: Product;
+  onClick?: (id: string) => void;
+  onAddToCart?: (product: Product) => void;
 }
 
-export const ProductCard = ({ product }: ProductCardProps) => {
+export const ProductCard = ({
+  product,
+  onClick,
+  onAddToCart,
+}: ProductCardProps) => {
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onAddToCart?.(product);
+  };
+
   return (
-    <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+    <Card
+      onClick={() => onClick?.(product.id)}
+      sx={{ height: "100%", display: "flex", flexDirection: "column" }}
+    >
       {product.imageUrl && (
         <CardMedia
           component="img"
@@ -41,6 +56,16 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           ${product.price.toFixed(2)}
         </Typography>
       </CardContent>
+      <Box sx={{ p: 2, pt: 0 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={handleAddToCart}
+        >
+          Add to Cart
+        </Button>
+      </Box>
     </Card>
   );
 };
