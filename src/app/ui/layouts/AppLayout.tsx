@@ -7,11 +7,11 @@ import {
   Menu,
   MenuItem,
   Avatar,
-  Badge,
   Typography,
 } from "@mui/material";
-import { ShoppingCart, Menu as MenuIcon } from "@mui/icons-material";
+import { Menu as MenuIcon } from "@mui/icons-material";
 import { Outlet, Link } from "react-router";
+import { CartIcon } from "@/cart/ui/widgets/CartIcon";
 
 export const AppLayout = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -60,11 +60,7 @@ export const AppLayout = () => {
           </Box>
 
           {/* Cart Icon */}
-          <IconButton color="inherit" sx={{ mr: 2 }}>
-            <Badge badgeContent={0} color="error">
-              <ShoppingCart />
-            </Badge>
-          </IconButton>
+          <CartIcon />
 
           {/* User Avatar */}
           <IconButton
