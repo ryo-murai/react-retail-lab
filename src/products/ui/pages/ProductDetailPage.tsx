@@ -1,12 +1,13 @@
 import { useParams } from "react-router";
 import { useGetProduct } from "@/shared/api/products/products";
 import { type Product } from "@/shared/api/model";
-import { addToCart } from "@/cart/lib/cart";
+import { useAddOrUpdateCartItem } from "@/cart/hooks/useCart";
 import { ProductCard } from "../widgets/ProductCard";
 
 export const ProductDetailPage = () => {
   const { productId } = useParams();
   const { data: productResp } = useGetProduct(productId!);
+  const { mutate: addToCart } = useAddOrUpdateCartItem();
 
   if (!productResp) {
     return <div>Loading...</div>;

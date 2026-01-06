@@ -27,7 +27,7 @@ export const ProductCard = ({
 
   return (
     <Card
-      onClick={() => onClick?.(product.id)}
+      onClick={() => onClick?.(product.productId)}
       sx={{ height: "100%", display: "flex", flexDirection: "column" }}
     >
       {product.imageUrl && (

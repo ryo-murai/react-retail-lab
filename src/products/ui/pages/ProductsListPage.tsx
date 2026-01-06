@@ -1,15 +1,16 @@
 import { useNavigate } from "react-router";
 import { useListProducts } from "@/shared/api/products/products";
 import { type Product } from "@/shared/api/model";
-import { addToCart } from "@/cart/lib/cart";
+import { useAddOrUpdateCartItem } from "@/cart/hooks/useCart";
 import { ProductCard } from "../widgets/ProductCard";
 
 export const ProductsListPage = () => {
   const navigate = useNavigate();
   const { data: productsResp } = useListProducts();
+  const { mutate: addToCart } = useAddOrUpdateCartItem();
 
-  const onProductClick = (id: string) => {
-    navigate(`/products/${id}`);
+  const onProductClick = (productId: string) => {
+    navigate(`/products/${productId}`);
   };
 
   const onAddToCart = (product: Product) => {
@@ -24,7 +25,7 @@ export const ProductsListPage = () => {
     <div>
       {productsResp?.data.map((product) => (
         <ProductCard
-          key={product.id}
+          key={product.productId}
           product={product}
           onClick={onProductClick}
           onAddToCart={onAddToCart}
