@@ -19,8 +19,9 @@ export const ProductsListPage = () => {
     addToCart({ ...product, quantity: 1 });
   };
 
+  // TODO: show search / filter UI while loading
   if (!productsResp) {
-    return <div>Loading...</div>;
+    return null;
   }
 
   return (

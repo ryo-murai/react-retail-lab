@@ -8,9 +8,12 @@ import {
   MenuItem,
   Avatar,
   Typography,
+  Backdrop,
+  CircularProgress,
 } from "@mui/material";
 import { Menu as MenuIcon } from "@mui/icons-material";
 import { Outlet, Link } from "react-router";
+import { useIsLoading } from "@/shared/webclient/hooks/useLoading";
 import { CartIcon } from "@/cart/ui/widgets/CartIcon";
 
 export const AppLayout = () => {
@@ -18,6 +21,7 @@ export const AppLayout = () => {
   const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(
     null
   );
+  const isLoading = useIsLoading();
   const isMenuOpen = Boolean(anchorEl);
   const isUserMenuOpen = Boolean(userMenuAnchor);
 
@@ -117,6 +121,15 @@ export const AppLayout = () => {
       <Box sx={{ flexGrow: 1, width: "100%", display: "flex" }}>
         <Outlet />
       </Box>
+      {/* ローディング中オーバーレイ */}
+      <Backdrop
+        open={isLoading}
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      >
+        <Box inert>
+          <CircularProgress />
+        </Box>
+      </Backdrop>
     </Box>
   );
 };

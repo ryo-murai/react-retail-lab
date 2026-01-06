@@ -29,7 +29,7 @@ export const ProductDetailPage = () => {
   });
 
   if (!productResp) {
-    return <div>Loading...</div>;
+    return null;
   }
 
   const onSubmit = (data: CartItemFormData) => {
