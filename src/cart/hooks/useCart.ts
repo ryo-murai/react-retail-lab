@@ -4,6 +4,7 @@ import {
   addOrUpdateCartItem,
   clearCart,
   getCartItems,
+  getCartItem,
   removeCartItem,
   updateCartItemQuantity,
 } from '../lib/cart';
@@ -20,6 +21,13 @@ export const useCartItems = () => {
     queryFn: getCartItems,
   });
 };
+
+export const useCartItem = (productId: string) => {
+  return useQuery({
+    queryKey: [...CART_QUERY_KEYS.items(), productId],
+    queryFn: () => getCartItem(productId),
+  });
+}
 
 export const useCartItemCount = () => {
   const cartItemsQuery = useCartItems();

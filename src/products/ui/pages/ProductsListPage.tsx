@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router";
+import { Button } from "@mui/material";
 import { useListProducts } from "@/shared/api/products/products";
 import { type Product } from "@/shared/api/model";
 import { useAddOrUpdateCartItem } from "@/cart/hooks/useCart";
-import { ProductListCard } from "../widgets/ProductListCard";
+import { ProductCard } from "../widgets/ProductCard";
 
 export const ProductsListPage = () => {
   const navigate = useNavigate();
@@ -13,7 +14,8 @@ export const ProductsListPage = () => {
     navigate(`/products/${productId}`);
   };
 
-  const onAddToCart = (product: Product) => {
+  const onAddToCart = (product: Product) => (e: React.MouseEvent) => {
+    e.stopPropagation();
     addToCart({ ...product, quantity: 1 });
   };
 
@@ -24,12 +26,20 @@ export const ProductsListPage = () => {
   return (
     <div>
       {productsResp?.data.map((product) => (
-        <ProductListCard
+        <ProductCard
           key={product.productId}
           product={product}
           onClick={onProductClick}
-          onAddToCart={onAddToCart}
-        />
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            onClick={onAddToCart(product)}
+          >
+            Add to Cart
+          </Button>
+        </ProductCard>
       ))}
     </div>
   );

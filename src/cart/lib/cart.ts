@@ -63,6 +63,20 @@ export const getCartItems = async (): Promise<CartItem[]> => {
   }));
 };
 
+export const getCartItem = async (productId: string): Promise<CartItem | undefined> => {
+  const db = await getDB();
+  const item = await db.get(STORE_NAME, productId);
+  if (item) {
+    return {
+      productId: item.productId,
+      name: item.product.name,
+      price: item.product.price,
+      quantity: item.quantity,
+    };
+  }
+  return undefined;
+}
+
 export const clearCart = async () => {
   const db = await getDB();
   await db.clear(STORE_NAME);

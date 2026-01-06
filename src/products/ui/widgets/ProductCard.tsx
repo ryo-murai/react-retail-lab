@@ -11,9 +11,14 @@ import { type Product } from "@/shared/api/model";
 interface ProductCardProps {
   product: Product;
   onClick?: (id: string) => void;
+  children?: React.ReactNode;
 }
 
-export const ProductCard = ({ product, onClick }: ProductCardProps) => {
+export const ProductCard = ({
+  product,
+  onClick,
+  children,
+}: ProductCardProps) => {
   return (
     <Card
       onClick={() => onClick?.(product.productId)}
@@ -45,6 +50,7 @@ export const ProductCard = ({ product, onClick }: ProductCardProps) => {
           ${product.price.toFixed(2)}
         </Typography>
       </CardContent>
+      {children && <Box sx={{ p: 2, pt: 0 }}>{children}</Box>}
     </Card>
   );
 };
