@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "npm run lint && npm run openapi:gen",
     "build": "tsc -b && vite build",
+    "postbuild": "npx --yes rimraf dist/mockServiceWorker.js",
     "lint": "eslint .",
     "preview": "vite preview",
     "openapi:gen": "orval --config ./orval.config.ts"
