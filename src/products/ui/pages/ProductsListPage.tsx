@@ -2,7 +2,7 @@ import { useNavigate } from "react-router";
 import { useListProducts } from "@/shared/api/products/products";
 import { type Product } from "@/shared/api/model";
 import { useAddOrUpdateCartItem } from "@/cart/hooks/useCart";
-import { ProductCard } from "../widgets/ProductCard";
+import { ProductListCard } from "../widgets/ProductListCard";
 
 export const ProductsListPage = () => {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ export const ProductsListPage = () => {
   return (
     <div>
       {productsResp?.data.map((product) => (
-        <ProductCard
+        <ProductListCard
           key={product.productId}
           product={product}
           onClick={onProductClick}
