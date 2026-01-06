@@ -247,7 +247,7 @@ components:
     Product:
       type: object
       properties:
-        id:
+        productId:
           type: string
         name:
           type: string
@@ -261,7 +261,7 @@ components:
           type: string
           format: uri
       required:
-        - id
+        - productId
         - name
         - price
     Order:
