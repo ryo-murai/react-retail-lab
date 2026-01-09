@@ -16,6 +16,10 @@ export default defineConfig({
         fetch: {
           forceSuccessResponse: true,
         },
+        mutator: {
+          path: "src/shared/webclient/lib/custom-fetch.ts",
+          name: "customFetch",
+        },
         mock: {
           properties: {
             "/name/": () =>
