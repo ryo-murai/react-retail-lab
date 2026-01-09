@@ -1,13 +1,15 @@
 import { useNavigate } from "react-router";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useListProducts } from "@/shared/api/products/products";
 import { type Product } from "@/shared/api/model";
+import { ErrorAlert } from "@/shared/ui/widgets/ErrorAlert";
+import { resolveErrorMessage } from "@/shared/errors/lib/error-handler";
 import { useAddOrUpdateCartItem } from "@/cart/hooks/useCart";
 import { ProductCard } from "../widgets/ProductCard";
 
 export const ProductsListPage = () => {
   const navigate = useNavigate();
-  const { data: productsResp } = useListProducts();
+  const { data: productsResp, error } = useListProducts();
   const { mutate: addToCart } = useAddOrUpdateCartItem();
 
   const onProductClick = (productId: string) => {
@@ -25,7 +27,8 @@ export const ProductsListPage = () => {
   }
 
   return (
-    <div>
+    <Box>
+      {error && <ErrorAlert error={resolveErrorMessage(error)} />}
       {productsResp?.data.map((product) => (
         <ProductCard
           key={product.productId}
@@ -42,6 +45,6 @@ export const ProductsListPage = () => {
           </Button>
         </ProductCard>
       ))}
-    </div>
+    </Box>
   );
 };

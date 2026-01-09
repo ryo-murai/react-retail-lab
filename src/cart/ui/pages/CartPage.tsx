@@ -13,7 +13,6 @@ import {
   TableRow,
   TextField,
   Typography,
-  Alert,
   Stack,
   Paper,
 } from "@mui/material";
@@ -24,53 +23,27 @@ import {
   useRemoveCartItem,
   useUpdateCartItemQuantity,
 } from "../../hooks/useCart";
+import { ErrorAlert } from "@/shared/ui/widgets/ErrorAlert";
+import { resolveErrorMessage } from "@/shared/errors/lib/error-handler";
 
 export function CartPage() {
-  const { data: cartItems = [], isLoading, error } = useCartItems();
+  const { data: cartItems = [], error, refetch } = useCartItems();
   const removeCartItemMutation = useRemoveCartItem();
   const updateQuantityMutation = useUpdateCartItemQuantity();
 
-  if (isLoading) {
-    return null;
-  }
-
-  if (error) {
-    return (
-      <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Alert severity="error">Error loading cart: {error.message}</Alert>
-      </Container>
-    );
-  }
-
-  if (cartItems.length === 0) {
-    return (
-      <Container maxWidth="lg" sx={{ py: 8, textAlign: "center" }}>
-        <ShoppingCartIcon
-          sx={{ fontSize: 80, color: "text.secondary", mb: 2 }}
-        />
-        <Typography variant="h5" color="text.secondary">
-          Your cart is empty
-        </Typography>
-      </Container>
-    );
-  }
-
-  const total = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const total =
+    cartItems?.reduce((sum, item) => sum + item.price * item.quantity, 0) || 0;
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Stack spacing={3}>
-        <Button
+        <Box
           component={Link}
           to="/products"
-          variant="outlined"
-          sx={{ width: 250 }}
+          sx={{ textDecoration: "none", textAlign: "left" }}
         >
-          {"<< Continue Shopping"}
-        </Button>
+          {"< Continue Shopping"}
+        </Box>
         <Typography
           variant="h4"
           component="h1"
@@ -78,6 +51,13 @@ export function CartPage() {
         >
           <ShoppingCartIcon /> Shopping Cart
         </Typography>
+
+        {error && (
+          <ErrorAlert error={resolveErrorMessage(error)} retry={refetch} />
+        )}
+        {cartItems?.length === 0 && (
+          <Typography>Your cart is empty. Start shopping now!</Typography>
+        )}
 
         <TableContainer component={Paper} elevation={2}>
           <Table>
