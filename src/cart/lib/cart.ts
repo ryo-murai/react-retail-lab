@@ -1,4 +1,5 @@
 import {openDB} from 'idb';
+
 import {type CartDB} from '../model/types/cart-db.type';
 import {type CartItem} from '../model/types/cart-item.type';
 

@@ -1,7 +1,8 @@
 import type {
-  ApiErrorKind,
   ApiError,
+  ApiErrorKind,
 } from "@/shared/webclient/model/types/error.type";
+
 import type { ErrorInfo } from "../model/error-info.type";
 import { fallbackMessage } from "./fallback-error-info";
 

@@ -1,10 +1,12 @@
 import { useMemo } from 'react';
+
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
 import {
   addOrUpdateCartItem,
   clearCart,
-  getCartItems,
   getCartItem,
+  getCartItems,
   removeCartItem,
   updateCartItemQuantity,
 } from '../lib/cart';

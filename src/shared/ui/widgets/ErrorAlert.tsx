@@ -1,5 +1,6 @@
-import { Alert, AlertTitle } from "@mui/material";
 import SyncIcon from "@mui/icons-material/Sync";
+import { Alert, AlertTitle } from "@mui/material";
+
 import type { ErrorInfo } from "@/shared/errors/model/error-info.type";
 
 export type ErrorAlertProps = {

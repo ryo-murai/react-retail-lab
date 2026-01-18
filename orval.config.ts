@@ -1,5 +1,5 @@
-import { defineConfig } from "orval";
 import { faker } from "@faker-js/faker";
+import { defineConfig } from "orval";
 
 export default defineConfig({
   reactRetailLabBackend: {

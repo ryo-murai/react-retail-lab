@@ -1,4 +1,5 @@
 import { setupWorker } from "msw/browser";
+
 import * as mocks from "@/shared/api/index.msw";
 
 // Mock worker for browser environment

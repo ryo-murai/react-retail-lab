@@ -1,11 +1,12 @@
 import {
+  Box,
   Card,
   CardContent,
   CardMedia,
-  Typography,
-  Box,
   Chip,
+  Typography,
 } from "@mui/material";
+
 import { type Product } from "@/shared/api/model";
 
 interface ProductCardProps {

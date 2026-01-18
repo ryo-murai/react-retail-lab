@@ -1,6 +1,7 @@
-import { Badge, IconButton } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { Badge, IconButton } from "@mui/material";
 import { useNavigate } from "react-router";
+
 import { useCartItemCount } from "../../hooks/useCart";
 
 export function CartIcon() {

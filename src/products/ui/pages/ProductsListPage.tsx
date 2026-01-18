@@ -1,10 +1,13 @@
-import { useNavigate } from "react-router";
 import { Box, Button } from "@mui/material";
-import { useListProducts } from "@/shared/api/products/products";
+import { useNavigate } from "react-router";
+
 import { type Product } from "@/shared/api/model";
-import { ErrorAlert } from "@/shared/ui/widgets/ErrorAlert";
+import { useListProducts } from "@/shared/api/products/products";
 import { resolveErrorMessage } from "@/shared/errors/lib/error-handler";
+import { ErrorAlert } from "@/shared/ui/widgets/ErrorAlert";
+
 import { useAddOrUpdateCartItem } from "@/cart/hooks/useCart";
+
 import { ProductCard } from "../widgets/ProductCard";
 
 export const ProductsListPage = () => {

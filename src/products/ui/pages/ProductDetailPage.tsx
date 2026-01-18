@@ -1,16 +1,19 @@
-import { useParams, useNavigate, Link } from "react-router";
-import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, TextField, Container } from "@mui/material";
+import { Box, Button, Container,TextField } from "@mui/material";
+import { Controller,useForm } from "react-hook-form";
+import { Link,useNavigate, useParams } from "react-router";
+
 import { useGetProduct } from "@/shared/api/products/products";
-import { useCartItem, useAddOrUpdateCartItem } from "@/cart/hooks/useCart";
+import { resolveErrorMessage } from "@/shared/errors/lib/error-handler";
+import { ErrorAlert } from "@/shared/ui/widgets/ErrorAlert";
+
+import { useAddOrUpdateCartItem,useCartItem } from "@/cart/hooks/useCart";
 import {
   type CartItemFormData,
   cartItemFormSchema,
 } from "@/cart/model/types/cart-item-form.schema";
+
 import { ProductCard } from "../widgets/ProductCard";
-import { ErrorAlert } from "@/shared/ui/widgets/ErrorAlert";
-import { resolveErrorMessage } from "@/shared/errors/lib/error-handler";
 
 export const ProductDetailPage = () => {
   const { productId } = useParams();

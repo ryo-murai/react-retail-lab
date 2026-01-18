@@ -1,19 +1,22 @@
 import { useState } from "react";
+
+import { Menu as MenuIcon } from "@mui/icons-material";
 import {
   AppBar,
-  Toolbar,
+  Avatar,
+  Backdrop,
   Box,
+  CircularProgress,
   IconButton,
   Menu,
   MenuItem,
-  Avatar,
+  Toolbar,
   Typography,
-  Backdrop,
-  CircularProgress,
 } from "@mui/material";
-import { Menu as MenuIcon } from "@mui/icons-material";
-import { Outlet, Link } from "react-router";
+import { Link,Outlet } from "react-router";
+
 import { useIsLoading } from "@/shared/webclient/hooks/useLoading";
+
 import { CartIcon } from "@/cart/ui/widgets/CartIcon";
 
 export const AppLayout = () => {

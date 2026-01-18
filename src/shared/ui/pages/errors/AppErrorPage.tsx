@@ -1,7 +1,9 @@
 import { Box, Button, Typography } from "@mui/material";
 import { Link } from "react-router";
-import { ErrorAlert } from "../../widgets/ErrorAlert";
+
 import { fallbackMessage } from "@/shared/errors/lib/fallback-error-info";
+
+import { ErrorAlert } from "../../widgets/ErrorAlert";
 
 const toHomeLabel = "Back to Home";
 

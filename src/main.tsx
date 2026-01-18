@@ -1,7 +1,9 @@
 import { StrictMode } from "react";
+
 import { createRoot } from "react-dom/client";
-import "./app/ui/styles/index.css";
+
 import App from "./app/ui/App.tsx";
+import "./app/ui/styles/index.css";
 
 /* launch MSW in development mode */
 if (import.meta.env.DEV && !import.meta.env.VITE_API_BASE_URL) {

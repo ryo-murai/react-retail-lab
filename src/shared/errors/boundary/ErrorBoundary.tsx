@@ -1,8 +1,10 @@
 import { useRouteError } from "react-router";
-import { isApiError, resolveErrorMessage } from "../lib/error-handler";
-import NotFoundPage from "@/shared/ui/pages/errors/NotFoundPage";
+
 import AppErrorPage from "@/shared/ui/pages/errors/AppErrorPage";
 import FallbackErrorPage from "@/shared/ui/pages/errors/FallbackErrorPage";
+import NotFoundPage from "@/shared/ui/pages/errors/NotFoundPage";
+
+import { isApiError, resolveErrorMessage } from "../lib/error-handler";
 
 export function ErrorBoundary() {
   const error = useRouteError();

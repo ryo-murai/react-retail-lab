@@ -1,10 +1,13 @@
 import { createBrowserRouter } from "react-router";
-import { AppLayout } from "../ui/layouts/AppLayout";
-import { ProductsListPage } from "@/products/ui/pages/ProductsListPage";
-import { ProductDetailPage } from "@/products/ui/pages/ProductDetailPage";
-import { CartPage } from "@/cart/ui/pages/CartPage";
-import NotFoundPage from "@/shared/ui/pages/errors/NotFoundPage";
+
 import { ErrorBoundary } from "@/shared/errors/boundary/ErrorBoundary";
+import NotFoundPage from "@/shared/ui/pages/errors/NotFoundPage";
+
+import { CartPage } from "@/cart/ui/pages/CartPage";
+import { ProductDetailPage } from "@/products/ui/pages/ProductDetailPage";
+import { ProductsListPage } from "@/products/ui/pages/ProductsListPage";
+
+import { AppLayout } from "../ui/layouts/AppLayout";
 
 export const router = createBrowserRouter([
   {

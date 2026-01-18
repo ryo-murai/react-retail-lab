@@ -1,10 +1,13 @@
-import { Link } from "react-router";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {
   Box,
   Button,
   Card,
   CardContent,
   Container,
+  Paper,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -13,18 +16,17 @@ import {
   TableRow,
   TextField,
   Typography,
-  Stack,
-  Paper,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { Link } from "react-router";
+
+import { resolveErrorMessage } from "@/shared/errors/lib/error-handler";
+import { ErrorAlert } from "@/shared/ui/widgets/ErrorAlert";
+
 import {
   useCartItems,
   useRemoveCartItem,
   useUpdateCartItemQuantity,
 } from "../../hooks/useCart";
-import { ErrorAlert } from "@/shared/ui/widgets/ErrorAlert";
-import { resolveErrorMessage } from "@/shared/errors/lib/error-handler";
 
 export function CartPage() {
   const { data: cartItems = [], error, refetch } = useCartItems();
