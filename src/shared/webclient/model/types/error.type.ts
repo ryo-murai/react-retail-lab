@@ -1,22 +1,15 @@
-export type ApiErrorKind = ApiError["kind"];
+import type { ErrorDetail, ProblemDetails } from "@/shared/api/model/ProblemDetails";
 
-// network error (including DNS failure, network unreachable, CORS misconfiguration, etc.)
+type ApiErrorResponse = ProblemDetails;
+
 export type NetworkError = {
-  kind: "network";
-  url: string;
-  /** original error thrown by fetch (TypeError, DOMException, etc.) */
-  cause: unknown;
-};
+  type: "about:blank";
+  title?: string;
+  status: 0;
+  detail?: string;
+  instance?: string;
+  isNetworkError: true;
+  errors?: ErrorDetail[];
+}
 
-// server error (4xx/5xx HTTP status)
-export type HttpError<E> = {
-  kind: "http";
-  url: string;
-  status: number;
-  statusText: string;
-  headers: Headers;
-  /** server error response */
-  body: E;
-};
-
-export type ApiError<E = unknown> = NetworkError | HttpError<E>;
+export type ApiError = ApiErrorResponse | NetworkError;

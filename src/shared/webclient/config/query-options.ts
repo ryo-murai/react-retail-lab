@@ -31,7 +31,7 @@ export const defaultOptions: QueryClientConfig = {
         const status = error.status;
 
         // retry on server error response(5xx), Too Many Requests(429) and Request Timeout(408)
-        if (is5xx(status) || status === 429 || status === 408) {
+        if (is5xx(status) || status === 429 || status === 408 || status === 0) {
           return failureCount < maxRetries;
         }
 

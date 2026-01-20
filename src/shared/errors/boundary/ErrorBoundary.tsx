@@ -10,19 +10,15 @@ export function ErrorBoundary() {
   const error = useRouteError();
 
   if (isApiError(error)) {
-    if (error.kind == "http") {
-      switch (error.status) {
-        case 404:
-          return <NotFoundPage />;
+    switch (error.status) {
+      case 404:
+        return <NotFoundPage />;
 
-        // 401:
-        // 403:
+      // 401:
+      // 403:
 
-        default:
-          return <AppErrorPage message={resolveErrorMessage(error)} />;
-      }
-    } else {
-      return <AppErrorPage message={resolveErrorMessage(error)} />;
+      default:
+        return <AppErrorPage message={resolveErrorMessage(error)} />;
     }
   }
 

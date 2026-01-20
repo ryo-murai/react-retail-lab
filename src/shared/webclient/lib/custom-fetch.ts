@@ -1,6 +1,8 @@
 // this is based on https://github.com/orval-labs/orval/blob/master/samples/react-query/custom-fetch/src/custom-fetch.ts
 
-import type { ApiError } from "../model/types/error.type";
+import type { ProblemDetails } from "@/shared/api/model/ProblemDetails";
+
+import type { ApiError, NetworkError } from "../model/types/error.type";
 
 // NOTE: Supports cases where `content-type` is other than `json`
 const getBody = <T>(c: Response | Request): Promise<T> => {
@@ -54,7 +56,7 @@ const getHeaders = (headers?: HeadersInit): HeadersInit => {
   };
 };
 
-export const customFetch = async <TBody, TError = unknown>(
+export const customFetch = async <TBody, ApiError>(
   url: string,
   options: RequestInit
 ): Promise<TBody> => {
@@ -73,14 +75,7 @@ export const customFetch = async <TBody, TError = unknown>(
   const response = await tryFetch(request);
 
   if (!response.ok) {
-    const error: ApiError<TError> = {
-      kind: "http",
-      url: url,
-      status: response.status,
-      statusText: response.statusText,
-      headers: response.headers,
-      body: await getBody<TError>(response),
-    };
+    const error = await getBody<ProblemDetails>(response);
     throw error;
   }
 
@@ -95,12 +90,19 @@ const tryFetch = async (request: Request): Promise<Response> => {
   try {
     const response = await fetch(request);
     return response;
-  } catch (fetchError) {
-    const error: ApiError = {
-      kind: "network",
-      url: request.url,
-      cause: fetchError,
+  } catch (error) {
+    const fetchError = error as Error;
+    const networkError: NetworkError = {
+      type: "about:blank",
+      status: 0,
+      isNetworkError: true,
+      errors: [
+        {
+          detail: `${fetchError.name}: ${fetchError.message}`,
+        },
+      ],
     };
-    throw error;
+
+    throw networkError;
   }
 };
